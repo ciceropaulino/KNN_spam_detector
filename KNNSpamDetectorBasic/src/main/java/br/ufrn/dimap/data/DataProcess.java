@@ -39,7 +39,17 @@ public abstract class DataProcess {
 
         return mail;
     }
+    protected List<List<String>> dataOrganizer(String mailStringBuilded, String breakPoint) {
+        List<String> mails = new TxtProcess().tokienizerContent(mailStringBuilded, breakPoint);
+        List<List<String>> tokenizedMailsList = new Vector<>();
 
+        for (String tokens : mails) {
+        List<String> mailsTokens = tokienizerContent(tokens, " ");
+            tokenizedMailsList.add(mailsTokens);
+        }
+
+        return tokenizedMailsList;
+    }
     protected abstract List<List<String>> processedData(String pathToFile) throws FileNotFoundException;
 
     }

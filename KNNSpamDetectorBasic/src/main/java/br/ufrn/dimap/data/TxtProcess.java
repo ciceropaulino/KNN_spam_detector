@@ -29,15 +29,15 @@ public class TxtProcess extends DataProcess{
             }
         }
 
-        List<String> mails = new TxtProcess().tokienizerContent(mailStringBuilded.toString(),BREAK_POINT);
-        List<List<String>> tokenizedMailsList = new ArrayList<>();
 
-        for (String tokens : mails) {
-            List<String> mailsTokens = new TxtProcess().tokienizerContent(tokens, " ");
-            tokenizedMailsList.add(mailsTokens);
-        }
 
-        return tokenizedMailsList;
+        //List<String> mails = new TxtProcess().tokienizerContent(mailStringBuilded.toString(),BREAK_POINT);
+        //List<List<String>> tokenizedMailsList = new ArrayList<>();
+
+        //for (String tokens : mails) {
+            //List<String> mailsTokens = new TxtProcess().tokienizerContent(tokens, " ");
+            //tokenizedMailsList.add(mailsTokens);
+        //}
+        return new TxtProcess().dataOrganizer(mailStringBuilded.toString(),BREAK_POINT);
     }
-
 }
