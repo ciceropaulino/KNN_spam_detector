@@ -2,6 +2,7 @@ package br.ufrn.dimap.data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,30 +12,32 @@ public class TxtProcess extends DataProcess{
         final String BREAK_POINT = "\n<<<[END_OF_FILE]>>>\n";
         File directoryPath = new File(pathToFile);
         File[] filesList = directoryPath.listFiles();
-        Scanner sc = null;
+        Scanner scannedFile = null;
+        StringBuilder mailStringBuilded = new StringBuilder();
         assert filesList != null;
 
         for(File file : filesList) {
-            sc= new Scanner(file);
+            scannedFile = new Scanner(file);
             String nextMailLine = "";
-            StringBuilder sb = new StringBuilder();
-            while (sc.hasNextLine()) {
-                nextMailLine = sc.nextLine();
+            while (scannedFile.hasNextLine()) {
+                nextMailLine = scannedFile.nextLine();
                 nextMailLine = new TxtProcess().mailDirtCleaner(nextMailLine);
-                sb.append(nextMailLine).append(" ");
-                if (!sc.hasNextLine()) {sb.append(nextMailLine).append(BREAK_POINT);}
+                mailStringBuilded.append(nextMailLine).append(" ");
+                if (!scannedFile.hasNextLine()) {
+                    mailStringBuilded.append(nextMailLine).append(BREAK_POINT);
+                }
             }
-            //TxtProcess clearMail = new TxtProcess();
-            //String cleannedMail = clearMail.mailDirtCleaner(sb.toString());
-            List<String> mailTokens = new TxtProcess().tokienizerContent(sb.toString(),BREAK_POINT);
-            for (String tokens : mailTokens) {
-                //String cleannedMail = new TxtProcess().mailDirtCleaner(tokens);
-                System.out.println("Contents of the file: \n" +tokens);
-            }
-
         }
 
-        return null;
+        List<String> mails = new TxtProcess().tokienizerContent(mailStringBuilded.toString(),BREAK_POINT);
+        List<List<String>> tokenizedMailsList = new ArrayList<>();
+
+        for (String tokens : mails) {
+            List<String> mailsTokens = new TxtProcess().tokienizerContent(tokens, " ");
+            tokenizedMailsList.add(mailsTokens);
+        }
+
+        return tokenizedMailsList;
     }
 
 }
