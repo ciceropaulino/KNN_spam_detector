@@ -26,7 +26,7 @@ public abstract class DataProcess {
                 ":", ",", ".", "@", "#", "%", "&", "(", ")", "-", "+",
                 "\"", "$", ";", "?", "!", "\\", "|", "{", "}", "[", "]",
                 "'", ">", "<", "*", "/", "0", "1", "2", "3", "4", "5", "6",
-                "7", "8", "9", "_"
+                "7", "8", "9", "_", "\n"
         ));
 
         for (String dirt : dirtStr) {
@@ -40,6 +40,6 @@ public abstract class DataProcess {
         return mail;
     }
 
-    protected abstract Vector<Vector<String>> processedData(String pathToFile) throws FileNotFoundException;
+    protected abstract List<List<String>> processedData(String pathToFile) throws FileNotFoundException;
 
     }
