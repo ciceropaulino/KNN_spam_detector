@@ -1,5 +1,9 @@
 package br.ufrn.dimap.data;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +55,16 @@ public abstract class DataProcess {
 
         return tokenizedMailsList;
     }
+
+    protected void processBatch(List<CSVRecord> batchRecords, StringBuilder mailStringBuilder) {
+        for (CSVRecord record : batchRecords) {
+            String mailBody = record.get("body");
+            String mailBuffer = mailDirtCleaner(mailBody.toLowerCase());
+            // Adicione aqui qualquer processamento adicional necessário
+            mailStringBuilder.append(mailBuffer).append("\n");
+        }
+    }
+
     protected abstract List<List<String>> processedData(String pathToFile);
 
     }
