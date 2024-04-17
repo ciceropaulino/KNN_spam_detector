@@ -1,6 +1,5 @@
 package br.ufrn.dimap.data;
 
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,8 +7,10 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 public abstract class DataProcess {
-    public DataProcess() {
+    protected final String BREAK_POINT;
 
+    protected DataProcess() {
+        BREAK_POINT = "\n<<<[END_OF_FILE]>>>\n";
     }
 
     protected List<String> tokienizerContent(String mail, String breakPoint) {
@@ -24,23 +25,23 @@ public abstract class DataProcess {
     protected String mailDirtCleaner(String mail) {
         List<String> dirtStr = Collections.unmodifiableList(Arrays.asList(
                 ":", ",", ".", "@", "#", "%", "&", "(", ")", "-", "+",
-                "\"", "$", ";", "?", "!", "\\", "|", "{", "}", "[", "]",
+                "\"", "$", ";", "~", "?", "!", "\\", "|", "{", "}", "[", "]",
                 "'", ">", "<", "*", "/", "0", "1", "2", "3", "4", "5", "6",
-                "7", "8", "9", "_", "\n"
+                "7", "8", "9", "_", "=", "\n", "\r", "\r\n", "\t"
         ));
 
         for (String dirt : dirtStr) {
             if (mail.contains(dirt)) {
-                mail = mail.replace(dirt, "");
+                mail = mail.replace(dirt, " ");
             }
         }
-        //replace concatenade spaces per a single space
+        //replace concatenade caracters per a single space
         mail = mail.trim().replaceAll(" +", " ");
 
         return mail;
     }
-    protected List<List<String>> dataOrganizer(String mailStringBuilded, String breakPoint) {
-        List<String> mails = new TxtProcess().tokienizerContent(mailStringBuilded, breakPoint);
+    protected List<List<String>> dataOrganizer(String mailString, String breakPoint) {
+        List<String> mails = new TxtProcess().tokienizerContent(mailString, breakPoint);
         List<List<String>> tokenizedMailsList = new Vector<>();
 
         for (String tokens : mails) {
@@ -50,6 +51,6 @@ public abstract class DataProcess {
 
         return tokenizedMailsList;
     }
-    protected abstract List<List<String>> processedData(String pathToFile) throws FileNotFoundException;
+    protected abstract List<List<String>> processedData(String pathToFile);
 
     }

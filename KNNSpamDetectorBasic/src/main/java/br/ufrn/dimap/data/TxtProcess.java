@@ -2,14 +2,12 @@ package br.ufrn.dimap.data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class TxtProcess extends DataProcess{
     @Override
-    public List<List<String>> processedData(String pathToFile) throws FileNotFoundException {
-        final String BREAK_POINT = "\n<<<[END_OF_FILE]>>>\n";
+    public List<List<String>> processedData(String pathToFile) {
         File directoryPath = new File(pathToFile);
         File[] filesList = directoryPath.listFiles();
         Scanner scannedFile = null;
@@ -17,7 +15,11 @@ public class TxtProcess extends DataProcess{
         assert filesList != null;
 
         for(File file : filesList) {
-            scannedFile = new Scanner(file);
+            try {
+                scannedFile = new Scanner(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             String nextMailLine = "";
             while (scannedFile.hasNextLine()) {
                 nextMailLine = scannedFile.nextLine();
@@ -28,16 +30,6 @@ public class TxtProcess extends DataProcess{
                 }
             }
         }
-
-
-
-        //List<String> mails = new TxtProcess().tokienizerContent(mailStringBuilded.toString(),BREAK_POINT);
-        //List<List<String>> tokenizedMailsList = new ArrayList<>();
-
-        //for (String tokens : mails) {
-            //List<String> mailsTokens = new TxtProcess().tokienizerContent(tokens, " ");
-            //tokenizedMailsList.add(mailsTokens);
-        //}
         return new TxtProcess().dataOrganizer(mailStringBuilded.toString(),BREAK_POINT);
     }
 }
