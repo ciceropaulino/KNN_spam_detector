@@ -7,13 +7,12 @@ import java.util.Scanner;
 
 public class TxtProcess extends DataProcess{
     @Override
-    public List<List<String>> processedData(String pathToFile) {
+    public List<List<String>> processedData(String pathToFile) throws RuntimeException {
         File directoryPath = new File(pathToFile);
         File[] filesList = directoryPath.listFiles();
         Scanner scannedFile = null;
         StringBuilder mailStringBuilded = new StringBuilder();
         assert filesList != null;
-
         for(File file : filesList) {
             try {
                 scannedFile = new Scanner(file);

@@ -13,19 +13,18 @@ public class CSVProcess extends DataProcess{
     @Override
     public List<List<String>> processedData(String pathToFile) {
         String mailDatasetString = "";
+        String mailBody = "";
+        String mailBuffer = "";
         Reader readerCSV = null;
-        List<String> mailTokens = new Vector<>(); // SUBSTITUIR TODOS OS VECTORS
-        List<List<String>> mailTokensList = new Vector<>();
         long counter = 0;
         try {
             readerCSV = new FileReader(pathToFile);
             CSVParser csvParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(readerCSV);
             List<CSVRecord> mailsRecords = csvParser.getRecords();
             for (CSVRecord records : mailsRecords) {
-                String mailBody = records.get("body");
-                String mailBuffer = new CSVProcess().mailDirtCleaner(mailBody);
-                mailTokensList.add(new CSVProcess().tokienizerContent(mailBuffer.toLowerCase()," "));
-                //Fazer TFIDF enquanto processa
+                mailBody = records.get("body_length");
+                mailBuffer = new CSVProcess().mailDirtCleaner(mailBody.toLowerCase());
+//                mailTokensList.add(new CSVProcess().tokienizerContent(mailBuffer.toLowerCase()," "));
                 counter += 1;
             }
         } catch (IOException e) {
